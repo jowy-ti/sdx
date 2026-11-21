@@ -1,0 +1,16 @@
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{c|c|c|c|c}
+\hline
+Proposers & $T_{\mathrm{cons}}$ (ms) & $T_{\mathrm{all}}$ (ms) & Winner/max rounds & Messages \\
+\hline
+1 & 16 & 16 & 1.0 / 1.0 & 20 \\
+3 & 16 & 3635 & 1.0 / 2.8 & 88 \\
+5 & 16 & 5057 & 1.0 / 3.5 & 163 \\
+7 & 16 & 6687 & 1.0 / 4.3 & 256 \\
+\hline
+\end{tabular}
+\caption{Number of proposers (5 acceptors, 10 runs, timeout 2000~ms). $T_{\mathrm{all}}$ is the time until all proposers decide; rounds are winner/maximum; messages are the total per run.}
+\label{tab:proposers}
+\end{table}

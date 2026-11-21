@@ -1,0 +1,27 @@
+\subsection{Number of \textit{acceptors} and \textit{proposers}}
+
+We increased the number of acceptors (3, 5, 7, 9) with 3 proposers, and the
+number of proposers (1, 3, 5, 7) with 5 acceptors. All proposers start
+together, with no message delays and the default timeout (2000~ms); each point
+is the mean of 10 headless runs (Tables~\ref{tab:acceptors}
+and~\ref{tab:proposers}).
+
+%%TABLE_ACCEPTORS%%
+
+%%TABLE_PROPOSERS%%
+
+With more acceptors the quorum grows ($\lfloor A/2\rfloor+1$), so every ballot
+exchanges more messages and the system tolerates $f=(A-1)/2$ crashed
+acceptors, but the consensus time and the winning round stay roughly constant.
+The price is message traffic and a larger quorum to assemble.
+
+With more proposers, consensus is still reached by one proposer in its first
+ballot. The others lose the race, receive \texttt{sorry}, and retry, so the
+maximum number of rounds, the time until all decide, and the traffic grow with
+the number of proposers. More proposers therefore improve availability (any
+one can drive consensus) but add contention and load; with message delays
+(Section~2.1) this contention becomes worse.
+
+Each ballot exchanges about $4A$ messages ($A$ prepares and $A$ accepts, plus
+their replies), so traffic grows linearly with the number of acceptors and
+with the number of retries.

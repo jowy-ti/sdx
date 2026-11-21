@@ -1,0 +1,37 @@
+\subsection{Message delays}
+
+\textbf{Setup.}
+We delayed the \texttt{promise} and/or \texttt{vote} replies by $D$~ms in the
+acceptor using \texttt{timer:send\_after/3}. The state is updated when the
+request arrives, so the delay models network latency. The protocol was left
+unchanged: 5 acceptors, 3 proposers (sleeps 0/100/200~ms), timeout 2000~ms,
+backoff 10~ms. For automated runs the GUI panels were replaced by processes
+that discard messages; each point is the mean of five runs (ten around the
+timeout), each in a fresh Erlang VM. A trial without a decision after 12~s is
+a failure.
+
+%%TABLE_MAIN%%
+
+\textbf{Results.}
+Consensus time grows linearly with $D$ (Table~\ref{tab:delays}). Delaying only
+votes adds about $D$: promises are immediate, so the first proposer wins.
+Delaying only promises adds about $D+200$~ms, because the later proposers
+(higher sequence numbers) preempt the first one while its promises are in
+flight; the last proposer wins and the extra 200~ms is its initial sleep.
+Delaying both pays the delay twice, about $2D+200$~ms. Agreement was never
+violated: the winner always decided in its first ballot, while losing
+proposers needed two or three.
+
+At $D=2000$~ms and above no run decided. Replies miss the timeout, every phase
+aborts, and retrying does not help, so delays affect liveness but not safety.
+
+\textbf{Timeout.}
+Termination requires $D<\mathrm{timeout}$ \emph{per phase}, not
+$2D<\mathrm{timeout}$: with $D=1500$ in both directions the round trip is
+3~s, but a 2000~ms timeout still succeeds because each phase has its own
+budget (Table~\ref{tab:timeout}). At $D=2500$ a 4000~ms timeout is needed.
+Increasing the timeout does not reduce the consensus time, but it slows down
+failure detection and makes losing proposers wait longer. Since delays are
+unbounded, no finite timeout guarantees termination.
+
+%%TABLE_TIMEOUT%%

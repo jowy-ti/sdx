@@ -1,0 +1,18 @@
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{r|r|r|r}
+\hline
+Delay (ms) & Promise & Vote & Both \\
+\hline
+0 & 8 & 8 & 8 \\
+500 & 704 & 509 & 1204 \\
+1000 & 1204 & 1009 & 2205 \\
+1500 & 1704 & 1509 & 3205 \\
+2000 & --- & --- & --- \\
+2500 & --- & --- & --- \\
+\hline
+\end{tabular}
+\caption{Consensus time (ms), mean of successful runs (standard deviation $\le 10$\,ms). $D$ is the one-way delay of the promise and/or vote reply; \texttt{---} means no decision within 12~s. Timeout 2000~ms.}
+\label{tab:delays}
+\end{table}

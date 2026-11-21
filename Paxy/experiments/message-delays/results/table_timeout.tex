@@ -1,0 +1,15 @@
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{c|c|c|c|c}
+\hline
+Delay (ms) & $t=500$ & $t=1000$ & $t=2000$ & $t=4000$ \\
+\hline
+500 & --- & 1205 & 1204 & 1204 \\
+1500 & --- & --- & 3204 & 3205 \\
+2500 & --- & --- & --- & 5205 \\
+\hline
+\end{tabular}
+\caption{Consensus time (ms) when both messages are delayed by $D$, for different proposer timeouts $t$; \texttt{---} means no decision within 12~s. Termination requires $D<t$, not $2D<t$.}
+\label{tab:timeout}
+\end{table}
