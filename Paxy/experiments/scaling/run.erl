@@ -6,7 +6,7 @@
 %% Output:
 %%   RESULT,status,A,P,t_first,t_all,winner_round,max_round,messages,consensus,missing
 
--define(WATCHDOG, 30000).
+-define(WATCHDOG, 300000).
 
 main([AS, PS]) ->
   A = list_to_integer(AS),
@@ -25,7 +25,7 @@ trial(A, P) ->
   Start = erlang:monotonic_time(millisecond),
   lists:foreach(
     fun(I) ->
-        Name = list_to_atom("p" ++ integer_to_list(I)),
+        Name = list_to_atom(lists:flatten(io_lib:format("p~2..0B", [I]))),
         Colour = {(I*97) rem 256, (I*57) rem 256, (I*17) rem 256},
         proposer:start(Name, Colour, AccNames, 0, Sink, self())
     end,

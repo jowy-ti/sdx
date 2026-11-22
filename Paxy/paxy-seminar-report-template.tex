@@ -33,22 +33,24 @@ Submit a compressed file (.tar.gz) containing ALL your source code files.
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabular}{r|r|r|r|r}
+\begin{tabular}{r|r|r|r|r|r}
 \hline
-Delay (ms) & Rounds & Promise & Vote & Both \\
+Delay (ms) & Winner & Max & Promise & Vote & Both \\
 \hline
-0 & 1 & 8 & 8 & 8 \\
-500 & 1 & 704 & 509 & 1204 \\
-1000 & 1 & 1204 & 1009 & 2205 \\
-1500 & 1 & 1704 & 1509 & 3205 \\
-2000 & --- & --- & --- & --- \\
+0 & 1 & 2 & 8 & 8 & 8 \\
+500 & 1 & 3 & 704 & 509 & 1204 \\
+1000 & 1 & 3 & 1204 & 1009 & 2205 \\
+1500 & 1 & 3 & 1704 & 1509 & 3205 \\
+2000 & --- & --- & --- & --- & --- \\
 \hline
 \end{tabular}
-\caption{Consensus time (ms) and rounds needed to reach consensus (1 = first ballot). \texttt{---} means no decision within 12~s. Timeout 2000~ms.}
+\caption{Consensus time (ms) and rounds. Winner is the ballot of the first
+decision; Max is the largest ballot observed in any run/configuration for that
+delay. \texttt{---} means no decision within 12~s. Timeout 2000~ms.}
 \label{tab:delays}
 \end{table}
 
-\noindent Delaying only votes adds about the delayed time to the consensus time, because promises are immediate, so the first proposer wins. Delaying only promises adds about the delayed time $+200$~ms. We can see in the table that the relation between delay and consensus time seems linear. Also we can see that delay doesn't affect to the number of rounds, but this happens just in case the delay remains less than the timeout, it just affects to the consensus time. However if the delay is not constant and sometimes votes or promises experience delay times larger than the timeout then it will cost more rounds. \\
+\noindent We can see in the table that the relation between delay and consensus time seems linear. Also we can see that delay doesn't quite affect to the number of rounds, but this happens just in case the delay remains less than the timeout, it just affects to the consensus time. However if the delay is not constant and sometimes votes or promises experience delay times larger than the timeout then it will cost more rounds. \\
 
 \noindent Increasing the timeout does not reduce the consensus time if the delays are less than the timeout, but it slows down failure detection and makes losing proposers wait longer. if the system is asynchronous no timeout guarantees termination.
 
@@ -66,65 +68,49 @@ Delay (ms) & Rounds & Promise & Vote & Both \\
 
 \subsection{Number of \textit{acceptors} and \textit{proposers}}
 
-We increased the number of acceptors (3, 5, 7, 9) with 3 proposers, and the
-number of proposers (1, 3, 5, 7) with 5 acceptors. All proposers start
-together, with no message delays and the default timeout (2000~ms); each point
-is the mean of 10 headless runs (Tables~\ref{tab:acceptors}
-and~\ref{tab:proposers}).
+We increased the number of acceptors (3, 5, 7, 9) with 3 proposers (Table \ref{tab:acceptors}, and the number of proposers (1, 3, 5, 7) with 5 acceptors (Table \ref{tab:proposers}). 
 
 \begin{table}[htbp]
 \centering
 \small
 \begin{tabular}{c|c|c|c|c}
 \hline
-Acceptors & $f$ & $T_{\mathrm{cons}}$ (ms) & Winner/max rounds & Messages \\
+Acceptors & $f$ & $T_{\mathrm{cons}}$ (ms) & $T_{\mathrm{all}}$ (ms) & Winner/max rounds \\
 \hline
-3 & 1 & 16 & 1 / 2.6 & 52 \\
-5 & 2 & 16 & 1 / 2.6 & 86 \\
-7 & 3 & 16 & 1 / 2.7 & 122 \\
-9 & 4 & 16 & 1 / 2.7 & 157 \\
+3 & 1 & 16 & 3231 & 1 / 3 \\
+5 & 2 & 16 & 3232 & 1 / 3 \\
+7 & 3 & 16 & 3435 & 1 / 3 \\
+9 & 4 & 16 & 3437 & 1 / 3 \\
 \hline
 \end{tabular}
 \caption{Number of acceptors (mean of 10 runs, 3 proposers, timeout 2000~ms).
-$f=(A-1)/2$ is the number of crashed acceptors tolerated; rounds are
-winner/maximum; messages are the total per run.}
+$f=(A-1)/2$ is the number of crashed acceptors tolerated; rounds are the
+winner and the observed maximum.}
 \label{tab:acceptors}
 \end{table}
 
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabular}{c|c|c|c|c}
+\begin{tabular}{c|c|c|c}
 \hline
-Proposers & $T_{\mathrm{cons}}$ (ms) & $T_{\mathrm{all}}$ (ms) & Winner/max rounds & Messages \\
+Proposers & $T_{\mathrm{cons}}$ (ms) & $T_{\mathrm{all}}$ (ms) & Winner/max rounds \\
 \hline
-1 & 16 & 16 & 1 / 1 & 20 \\
-3 & 16 & 3635 & 1 / 2.8 & 88 \\
-5 & 16 & 5057 & 1 / 3.5 & 163 \\
-7 & 16 & 6687 & 1 / 4.3 & 256 \\
+1 & 16 & 16 & 1 / 1 \\
+3 & 16 & 3635 & 1 / 3 \\
+5 & 16 & 5057 & 1 / 4 \\
+7 & 16 & 6687 & 1 / 5 \\
 \hline
 \end{tabular}
 \caption{Number of proposers (mean of 10 runs, 5 acceptors, timeout 2000~ms).
-$T_{\mathrm{all}}$ is the time until all proposers decide; rounds are
-winner/maximum; messages are the total per run.}
+$T_{\mathrm{all}}$ is the time until all proposers decide; rounds are the
+winner and the observed maximum.}
 \label{tab:proposers}
 \end{table}
 
-With more acceptors the quorum grows ($\lfloor A/2\rfloor+1$), so every ballot
-exchanges more messages and the system tolerates $f=(A-1)/2$ crashed
-acceptors, but the consensus time and the winning round stay roughly constant.
-The price is message traffic and a larger quorum to assemble.
+\noindent With more acceptors the quorum grows, so every ballot exchanges more messages (more message traffic) and the system tolerates more crashed acceptors, and the consensus time and the number of rounds stay more or less the same. \\
 
-With more proposers, consensus is still reached by one proposer in its first
-ballot. The others lose the race, receive \texttt{sorry}, and retry, so the
-maximum number of rounds, the time until all decide, and the traffic grow with
-the number of proposers. More proposers therefore improve availability (any
-one can drive consensus) but add contention and load; with message delays
-(Section~2.1) this contention becomes worse.
-
-Each ballot exchanges about $4A$ messages ($A$ prepares and $A$ accepts, plus
-their replies), so traffic grows linearly with the number of acceptors and
-with the number of retries.
+\noindent With more proposers consensus is still reached by one proposer in its first ballot, but it needs way more rounds in total until all decide and reach consensus. The traffic grows exponentially with the number of proposers. More proposers improve availability (anyone can achieve consensus) but add load.
 
 \subsection{Distributed execution}
 
@@ -140,12 +126,12 @@ with the number of retries.
 
 \subsection{Improvement based on \texttt{sorry} messages}
 
-\textit{\textbf{Code.} Discuss the changes needed in the \texttt{collect/4} and \texttt{vote/2} procedures in the proposer.}
- 
-{\setlength{\parskip}{10pt}\noindent\textit{\textbf{Experiment.} Compare the time needed to get consensus with and without the improvement.}}
+To make the improvement on \texttt{sorry} messages we added a new parameter on functions \texttt{collect/5} and \texttt{vote/3}. This parameter is calculated as follows: \texttt{SorryQuorum = length(Acceptors) - Quorum + 1}. When in functions \texttt{collect/5} and \texttt{vote/3} they reach a number of sorries that makes impossible to reach the Quorum for promises or votes they abort.\\
+
+\noindent The difference in time elapsed to reach consensus is noticeable since now proposers don't have to wait for the timeout. The consensus time for all proposers has improved from 2-4 s to 12-20 ms.
 
 \section{Personal opinion}
 
-\textit{Provide your personal opinion of the seminar, indicating whether it should be included in next year's course or not.}
+We think it is a good seminar to understand paradigms to reach consensus consensus. Therefore we think it is a good idea to include It next course.
 
 \end{document}

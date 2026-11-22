@@ -1,0 +1,10 @@
+series,acceptors,proposers,n,ok,t_first,t_all,winner_round,max_round,messages
+acceptors,10,3,5,5,16,3231,1,2.6,172
+acceptors,20,3,5,5,16,2427,1,2.2,328
+acceptors,30,3,5,5,16,3641,1,2.8,528
+acceptors,50,3,5,5,18,2430,1,2.2,847
+proposers,5,10,3,3,16,7448,1,4.7,417
+proposers,5,20,3,3,17,15113,1,8,1147
+proposers,5,30,3,3,17,23297,1,10.3,1987
+proposers,5,50,2,2,18,88342,1,14.5,4255
+stress,50,50,1,1,22,112203,1,15,42700
