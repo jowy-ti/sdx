@@ -1,0 +1,95 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage[utf8]{inputenc} % Change according your file encoding
+\usepackage{graphicx}
+\usepackage{url}
+
+%opening
+\title{Seminar Report: Opty}
+\author{\textbf{Name of team members}}
+\date{\normalsize\today{}}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+Upload your report in PDF format.
+  
+Use this LaTeX template to format the report.
+  
+Validate your basic Opty code through the review questionnaires at ATENEA.
+
+Submit a compressed file (.tar.gz) containing ALL your source code files.
+\end{center}
+
+\section{Introduction}
+
+\textit{Introduce in a couple of sentences the seminar and the main topic related to distributed systems it covers.}
+
+\section{Experiments and Questions}
+
+\subsection{Number of concurrent clients}
+
+\textit{\textbf{Experiment.} Provide figures with experimental results comparing the number of transactions and the success rate (i.e. percentage of committed transactions with respect to the total) when executing with different number of concurrent clients in the system.}
+
+{\setlength{\parskip}{10pt}\noindent\textit{\textbf{Question.} Discuss the impact of the number of clients on the success rate, and indicate whether the success rate is the same for the different clients.}}
+
+\subsection{Number of entries}
+
+\textit{\textbf{Experiment.} Provide figures with experimental results comparing the number of transactions and the success rate when executing with different number of entries in the store.}
+
+{\setlength{\parskip}{10pt}\noindent\textit{\textbf{Question.} Discuss the impact of the number of entries on the success rate, and indicate whether the success rate is the same for the different clients.}}
+
+\subsection{Number of read operations}
+
+\textit{\textbf{Experiment.} Provide figures with experimental results comparing the number of transactions and the success rate when executing with different number of read operations per transaction.}
+
+{\setlength{\parskip}{10pt}\noindent\textit{\textbf{Question.} Discuss the impact of the number of read operations on the success rate, and indicate whether the success rate is the same for the different clients.}}
+
+\subsection{Number of write operations}
+
+\textit{\textbf{Experiment.} Provide figures with experimental results comparing the number of transactions and the success rate when executing with different number of write operations per transaction.}
+
+{\setlength{\parskip}{10pt}\noindent\textit{\textbf{Question.} Discuss the impact of the number of write operations on the success rate, and indicate whether the success rate is the same for the different clients.}}
+
+\subsection{Ratio of read and write operations}
+
+\textit{\textbf{Experiment.} Provide figures with experimental results comparing the number of transactions and the success rate when executing with different ratio of read and write operations for a fixed amount of operations per transaction (including special cases having only read or write operations).}
+
+{\setlength{\parskip}{10pt}\noindent\textit{\textbf{Question.} Discuss the impact of the ratio of read and write operations on the success rate, and indicate whether the success rate is the same for the different clients.}}
+
+\subsection{Percentage of accessed entries}
+
+\textit{\textbf{Code.} Discuss the changes needed in the client so that each one accesses a randomly generated subset of the store: the number of entries in each subset should be the same for all the clients, but the subsets should be different per client and should not contain necessarily contiguous entries.}
+
+{\setlength{\parskip}{10pt}\noindent\textit{\textbf{Experiment.} Provide figures with experimental results comparing the number of transactions and the success rate when executing with different percentage of accessed entries with respect to the total number of entries.}}
+
+{\setlength{\parskip}{10pt}\noindent\textit{\textbf{Question.} Discuss the impact of the percentage on accessed entries on the success rate, and indicate whether the success rate is the same for the different clients.}}
+
+\subsection{Distributed execution}
+
+\textit{\textbf{Code.} Discuss the changes needed in the \texttt{opty} module to ensure that the clients can connect correctly to the server, which must be created in a different remote Erlang instance (named \texttt{opty-srv}).}
+
+{\setlength{\parskip}{10pt}\noindent\textit{\textbf{Experiment.} Record a video providing empirical evidence of the distributed execution working properly.}}
+
+{\setlength{\parskip}{10pt}\noindent\textit{\textbf{Question.} If we run Opty in a distributed Erlang network, indicate in which Erlang instance the client, server, validator, and handler processes are running.}}
+
+\subsection{Other concurrency control techniques}
+
+\textit{Answer the corresponding subsection according to the chosen activity.}
+
+\subsubsection{Forward validation}
+
+\textit{\textbf{Code.} Discuss the changes needed in the code to implement forward validation instead of backward validation.}
+
+{\setlength{\parskip}{10pt}\noindent\textit{\textbf{Experiment.} Provide figures with experimental results on the number of transactions and the success rate to compare forward validation with backward validation for different number of concurrent clients in the system.}}
+
+\subsubsection{Timestamp ordering}
+
+\textit{\textbf{Experiment.} Provide figures with experimental results on the number of transactions and the success rate to compare timestamp ordering with backward validation for ALL the parameters studied before.}
+
+\section{Personal opinion}
+
+\textit{Provide your personal opinion of the seminar, indicating whether it should be included in next year's course or not.}
+
+\end{document}
